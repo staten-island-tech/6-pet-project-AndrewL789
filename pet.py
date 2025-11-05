@@ -51,10 +51,39 @@ class petpetpet:
         self.name = name
         self.__hapiness = hapiness
     def play(self, action):
-        p = 10
-        self.__hapiness += p
-        print(f"{self.name} is {action}, his joy has surged by {p}!!!!")
+        play = [
+            {
+                'act':'playing fetch',
+                'hpn': 25
+            },
+            {
+                'act': 'walking',
+                'hpn': 5
+            }
+        ]
+        c1 = False
+        for goo in play:
+            if action.lower() != goo['act'].lower():
+                c1 = False
+            elif action.lower() == goo['act'].lower():
+                c1 = True
+        if c1 == True:
+            for grah in play:
+                if action.lower() == grah['act'].lower():
+                    self.__hapiness += grah['hpn']
+                    print(f"{self.name} is {action.lower()} his happiness has increased by {grah['hpn']}!! ")
+    def status(self):
+        print(f"{self.name}'s current happiness is {self.__hapiness}")
         
-yang = petpetpet('XiYang', 50) 
-yang.play("xiyang'in") 
+yang = petpetpet('Xiyang', 50) 
+done = False
+while done == False:
+    grah = input('interact :')
+    if grah == "done":
+        done = True
+    elif grah == "status":
+        yang.status()
+    elif grah !="done":
+        yang.play(grah)
+    
 
