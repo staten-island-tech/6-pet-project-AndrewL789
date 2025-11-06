@@ -51,36 +51,53 @@ class petpetpet:
         self.name = name
         self.__hapiness = hapiness
     def play(self, action):
-        play = [
+        playz = [
             {
-                'act':'playing fetch',
+                'act':'running',
                 'hpn': 25
             },
             {
                 'act': 'walking',
                 'hpn': 5
+            },
+            {
+                'act' :"yang'n",
+                'hpn': 30
+            },
+            {
+                'act':'getting wasted',
+                'hpn' : -30
+            },
+            {
+                'act':'singing',
+                'hpn': -50
             }
         ]
         c1 = False
-        for goo in play:
-            if action.lower() != goo['act'].lower():
-                c1 = False
-            elif action.lower() == goo['act'].lower():
+        for goo in playz:
+            if action.lower() == goo['act'].lower():
                 c1 = True
-        if c1 == True:
-            for grah in play:
+        if c1 == False:
+            print('invalid action')
+        elif c1 == True:
+            for grah in playz:
                 if action.lower() == grah['act'].lower():
                     self.__hapiness += grah['hpn']
-                    print(f"{self.name} is {action.lower()} his happiness has increased by {grah['hpn']}!! ")
+                    if grah['hpn'] > 0:
+                        boom = 'increased'
+                    elif grah['hpn'] < 0:
+                        boom = 'decreased'
+
+                    print(f"{self.name} is {action.lower()}, his happiness has {boom} by {grah['hpn']}!! ")
     def status(self):
-        print(f"{self.name}'s current happiness is {self.__hapiness}")
-        
-yang = petpetpet('Xiyang', 50) 
+        print(f"{self.name}'s current happiness is {self.__hapiness}!!")
+yang = petpetpet('Xiyang', 50)
 done = False
 while done == False:
     grah = input('interact :')
     if grah == "done":
         done = True
+        yang.status()
     elif grah == "status":
         yang.status()
     elif grah !="done":
