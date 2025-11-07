@@ -44,14 +44,7 @@ class Hero:
 #yang.play("yang game") 
 
 
-
-
-class petpetpet:
-    def __init__(self, name, hapiness):
-        self.name = name
-        self.__hapiness = hapiness
-    def play(self, action):
-        playz = [
+playz = [
             {
                 'act':'running',
                 'hpn': 25
@@ -73,6 +66,14 @@ class petpetpet:
                 'hpn': -50
             }
         ]
+def opts():
+    for i in playz:
+            print(i['act'], i['hpn'])
+class petpetpet:
+    def __init__(self, name, hapiness):
+        self.name = name
+        self.__hapiness = hapiness
+    def play(self, action):
         c1 = False
         for goo in playz:
             if action.lower() == goo['act'].lower():
@@ -100,6 +101,8 @@ while done == False:
         yang.status()
     elif grah == "status":
         yang.status()
+    elif grah == 'opts':
+        opts() 
     elif grah !="done":
         yang.play(grah)
     
