@@ -42,9 +42,40 @@ class Hero:
  """
 #yang = pet('Yang', 0) 
 #yang.play("yang game") 
-
-
-playz = [
+class petpetpet:
+    def __init__(self, name, hapiness, weight, hunger):
+        self.name = name
+        self.__hapiness = hapiness
+        self.__weight = weight
+        self.__hunger = hunger
+    def feed(self):
+        found = False
+        menu =[
+            {
+                'food' : 'cake',
+                'hunger' : 20,
+                'gains' : 20 
+            },
+            {
+                'food' : 'qin shi huang',
+                'hunger' : - 35,
+                'gains' : 30 
+            }
+        ]
+        print(menu)
+        food = input('What to feed? :')
+        for it in menu:
+            if food.lower() == it['food'].lower():
+                found = True
+        if found == True:
+            self.__hunger += it['hunger']
+            self.__weight += it['gains']
+            print(f"{self.name}'s hunger has now been changed by {it['hunger']}, {self.name} is now {self.__weight}lbs")
+        else:
+            print(f'{food} is not a valid option')
+        
+    def play(self):
+        playz = [
             {
                 'act':'running',
                 'hpn': 25
@@ -64,35 +95,25 @@ playz = [
             {
                 'act':'singing',
                 'hpn': -50
+            },
+            {
+                'act':'explode',
+                'hpn':-9999999999999999999999999999999999999999999999999999999
             }
         ]
-def opts():
-    for i in playz:
-            print(i['act'], i['hpn'])
-class petpetpet:
-    def __init__(self, name, hapiness):
-        self.name = name
-        self.__hapiness = hapiness
-    def play(self, action):
-        c1 = False
-        for goo in playz:
-            if action.lower() == goo['act'].lower():
-                c1 = True
-        if c1 == False:
-            print('invalid action')
-        elif c1 == True:
-            for grah in playz:
-                if action.lower() == grah['act'].lower():
-                    self.__hapiness += grah['hpn']
-                    if grah['hpn'] > 0:
-                        boom = 'increased'
-                    elif grah['hpn'] < 0:
-                        boom = 'decreased'
+        print(playz)
+        action = input('What to play? :')
+        found = False
+        for games in playz:
+                    if action.lower() == games['act'].lower():
+                        found = True
+        if found == True:
+            self.__hapiness += games['hpn']
+            print(f"{self.name}'s happiness has changed by {games['hpn']}")
 
-                    print(f"{self.name} is {action.lower()}, his happiness has {boom} by {grah['hpn']}!! ")
     def status(self):
-        print(f"{self.name}'s current happiness is {self.__hapiness}!!")
-yang = petpetpet('Xiyang', 50)
+        print(f" {self.name}, {self.__hapiness}, {self.__hunger}, {self.__weight}lbs")
+yang = petpetpet('Xiyang', 50, 80, 50)
 done = False
 while done == False:
     grah = input('interact :')
@@ -101,9 +122,11 @@ while done == False:
         yang.status()
     elif grah == "status":
         yang.status()
-    elif grah == 'opts':
-        opts() 
-    elif grah !="done":
-        yang.play(grah)
+    elif grah == 'feed':
+        yang.feed() 
+    elif grah == 'play':
+        yang.play()
+    else:
+        print('invalid action')
     
 
