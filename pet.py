@@ -62,6 +62,11 @@ class petpetpet:
                 'food' : 'nothing',
                 'hunger' : -35,
                 'gains' : -3 
+            },
+            {
+                'food':'mason',
+                'hunger':2000,
+                'gains':23000
             }
         ]
         print(menu)
@@ -72,8 +77,8 @@ class petpetpet:
                 if found == True:
                     self.__hunger += it['hunger']
                     self.__weight += it['gains']
-            print(f"{self.name} has devoured {it['food']}, {self.name}'s hunger has now been changed by {it['hunger']}, {self.name} is now {self.__weight}lbs")
-        else:
+                    print(f"{self.name} has devoured {it['food']}, {self.name}'s hunger has now been changed by {it['hunger']}, {self.name} is now {self.__weight}lbs")
+        if found == False:
             print(f'{food} is not a valid option')
         if (self.__hunger>40) and (self.__hunger < 60):
             self.__status[1] = "fed"
@@ -84,6 +89,9 @@ class petpetpet:
         elif self.__hunger <= 40:
             self.__status[1] = "malnourished"
             self.__hpm = 0.95
+        elif (self.__hunger > 999) and (self.__weight > 200):
+            self.__status[1] = "REALLY FAT"
+            self.__hpm = 1.5
     def play(self):
         playz = [
             {
@@ -118,12 +126,12 @@ class petpetpet:
                     if action.lower() == games['act'].lower():
                         found = True
                         if found == True:
-                            self.__hapiness += games['hpn']
-                            print(f"{self.name}'s happiness has changed by {games['hpn']}")
+                            self.__hapiness += games['hpn'] * self.__hpm
+                            print(f"{self.name}'s happiness has changed by {games['hpn'] * self.__hpm}")
         if self.__hapiness < -1000:
             self.__status[0] = "depressed"
         else:
-            self.status[0] = "happy"
+            self.__status[0] = "happy"
     def status(self):
         print(f" {self.name}, {self.__hapiness}, {self.__hunger}, {self.__weight}lbs, {self.__status}, {self.__hpm}")
 yang = petpetpet('Xiyang', 50, 80, 50, ['happy','fed'], 1.00)
