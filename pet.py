@@ -61,7 +61,7 @@ class petpetpet:
             {
                 'food' : 'nothing',
                 'hunger' : -35,
-                'gains' : 30 
+                'gains' : -3 
             }
         ]
         print(menu)
@@ -69,10 +69,10 @@ class petpetpet:
         for it in menu:
             if food.lower() == it['food'].lower():
                 found = True
-        if found == True:
-            self.__hunger += it['hunger']
-            self.__weight += it['gains']
-            print(f"{self.name}'s hunger has now been changed by {it['hunger']}, {self.name} is now {self.__weight}lbs")
+                if found == True:
+                    self.__hunger += it['hunger']
+                    self.__weight += it['gains']
+            print(f"{self.name} has devoured {it['food']}, {self.name}'s hunger has now been changed by {it['hunger']}, {self.name} is now {self.__weight}lbs")
         else:
             print(f'{food} is not a valid option')
         if (self.__hunger>40) and (self.__hunger < 60):
@@ -104,11 +104,11 @@ class petpetpet:
             },
             {
                 'act':'singing',
-                'hpn': -50
+                'hpn': -5
             },
             {
                 'act':'explode',
-                'hpn':-9999999999999999999999999999999999999999999999999999999
+                'hpn':-10000000
             }
         ]
         print(playz)
@@ -117,16 +117,16 @@ class petpetpet:
         for games in playz:
                     if action.lower() == games['act'].lower():
                         found = True
-        if found == True:
-            self.__hapiness += round(games['hpn'] * self.__hpm)
-            print(f"{self.name}'s happiness has changed by {round(games['hpn'] * self.__hpm)}")
+                        if found == True:
+                            self.__hapiness += games['hpn']
+                            print(f"{self.name}'s happiness has changed by {games['hpn']}")
         if self.__hapiness < -1000:
             self.__status[0] = "depressed"
         else:
             self.status[0] = "happy"
     def status(self):
         print(f" {self.name}, {self.__hapiness}, {self.__hunger}, {self.__weight}lbs, {self.__status}, {self.__hpm}")
-yang = petpetpet('Xiyang', 50, 80, 50, ['alive','fed'], 1.00)
+yang = petpetpet('Xiyang', 50, 80, 50, ['happy','fed'], 1.00)
 done = False
 while done == False:
     grah = input('interact :')
