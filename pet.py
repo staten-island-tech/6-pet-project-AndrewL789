@@ -22,11 +22,7 @@ class Hero:
 #yangxi = Hero("YangXi", 3.99, ["Bone Cancer"], ["dirty used syringe"])
 #print(yangxi.inv)
 #yangxi.buy('sword')
-
-
-
 #pet
-
 """ class pet:
     def __init__(self, name, hapiness):
         self.name = name
@@ -39,33 +35,38 @@ class Hero:
 #yang = pet('Yang', 0) 
 #yang.play("yang game") 
 class petpetpet:
-    def __init__(self, name, hapiness, weight, hunger, status, hpm):
+    def __init__(self, name, hapiness, weight, hunger, status, hpm, hp):
         self.name = name
         self.__hapiness = hapiness
         self.__weight = weight
         self.__hunger = hunger
         self.__status = status
         self.__hpm = hpm
+        self.__hp = hp 
     def feed(self):
         found = False
         menu =[
             {
-                'food' : 'cake',
-                'hunger' : 20,
-                'gains' : 20 
+                'food' : 'cake', 'hunger' : 20, 'gains' : 20, 'heal' : 3.5 
             },
             {
-                'food' : 'nothing',
-                'hunger' : -35,
-                'gains' : -3 
+                'food' : 'nothing', 'hunger' : -35, 'gains' : -3, 'heal' : 0
             },
             {
-                'food':'mason',
-                'hunger':2000,
-                'gains':23000
+                'food' : 'granola bar', 'hunger' : 5, 'gains' : 0.25, 'heal' : 5
+            },
+            {
+                'food' : 'tree', 'hunger' : 1, 'gains' : 20, 'heal' : -10
+            },
+            {
+                'food' : 'cement', 'hunger' : 0, 'gains' : '40', 'heal' : 1
+            },
+            {
+                'food':'mason', 'hunger':2000000, 'gains':20000000 'heal': 1000000
             }
         ]
-        print(menu)
+        for food in menu:
+            print(f"{food['food']} : hunger; {food['hunger']} : gains ; {food['gains']} ")
         food = input('What to feed? :')
         for it in menu:
             if food.lower() == it['food'].lower():
@@ -91,31 +92,26 @@ class petpetpet:
     def play(self):
         playz = [
             {
-                'act':'running',
-                'hpn': 25
+                'act':'running', 'hpn': 25, 'dmg': 0
             },
             {
-                'act': 'walking',
-                'hpn': 5
+                'act': 'walking', 'hpn': 5, 'dmg' : 0
             },
             {
-                'act' :"yang'n",
-                'hpn': 30
+                'act' :"yang'n", 'hpn': 30, 'dmg' : 0 
             },
             {
-                'act':'getting wasted',
-                'hpn' : -30
+                'act':'getting wasted', 'hpn' : -30, 'dmg':0
             },
             {
-                'act':'singing',
-                'hpn': -5
+                'act':'singing', 'hpn': -5, 'dmg': 5
             },
             {
-                'act':'explode',
-                'hpn':-10000000
+                'act':'explode', 'hpn':-10000000, 'dmg':330
             }
         ]
-        print(playz)
+        for play in playz:
+            print(f"{play['act']} : hapiness ; {play['hpn']}")
         action = input('What to play? :')
         found = False
         for games in playz:
@@ -123,6 +119,7 @@ class petpetpet:
                         found = True
                         if found == True:
                             self.__hapiness += games['hpn'] * self.__hpm
+                            self.__hp -= games['dmg']
                             print(f"{self.name}'s happiness has changed by {games['hpn'] * self.__hpm}")
         if found == False:
             print(f"{action} is not a valid action")
@@ -131,17 +128,16 @@ class petpetpet:
             self.__status[0] = "depressed"
         elif self.__hapiness < -999:
             self.__status[0] = "dead inside"
-            self.__status[2] = 'dead'
         else:
             self.__status[0] = "happy"
     def status(self):
-        print(f" {self.name}, happiness:{self.__hapiness}, hunger:{self.__hunger}/100, {self.__weight}lbs, {self.__status}, {self.__hpm}x")
+        print(f" {self.name}, happiness:{self.__hapiness}, hunger:{self.__hunger}/100, {self.__weight}lbs, {self.__status}, {self.__hpm}x, {self.__hp}hp")
     def begin(self):
-            done = False
-            while done == False:
+            while self.__status[2] == 'alive':
                 grah = input('interact :')
-                if grah.lower() == "done":
-                    done = True
+                if grah.lower() == "kill":
+                    self.__hp = 0
+                    self.__hapiness = 0
                 elif grah.lower() == "status":
                     self.status()
                 elif grah.lower() == 'feed':
@@ -150,9 +146,10 @@ class petpetpet:
                     self.play()
                 else:
                     print('invalid action')
-            while self.__status[2] != 'alive':
-                done == True
-            if done == True:
-                self.status()
-yang = petpetpet('Xiyang', 50, 80, 50, ['happy','fed', 'alive'], 1.00)
+                if self.__hp <= 0:
+                    self.__status[2] = 'dead'
+                if self.__status[2] == 'dead':
+                    print(f"{self.name} has died")
+                    self.status()
+yang = petpetpet('Xiyang', 50, 80, 50, ['happy','fed', 'alive'], 1.00, 100)
 yang.begin()
