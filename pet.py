@@ -6,7 +6,6 @@ shop = [
         'price': 2.99
     }
 ]
-
 class Hero:
     def __init__(self, name, money, status, inv):
         self.name = name
@@ -20,9 +19,6 @@ class Hero:
                 self.__money -= grah['price'] 
                 print(self.inv) 
                 print(self.__money)
-
-
-
 #yangxi = Hero("YangXi", 3.99, ["Bone Cancer"], ["dirty used syringe"])
 #print(yangxi.inv)
 #yangxi.buy('sword')
@@ -128,28 +124,35 @@ class petpetpet:
                         if found == True:
                             self.__hapiness += games['hpn'] * self.__hpm
                             print(f"{self.name}'s happiness has changed by {games['hpn'] * self.__hpm}")
+        if found == False:
+            print(f"{action} is not a valid action")
+    
         if (self.__hapiness < -100) and (self.__hapiness >=-999):
             self.__status[0] = "depressed"
+        elif self.__hapiness < -999:
+            self.__status[0] = "dead inside"
+            self.__status[2] = 'dead'
         else:
             self.__status[0] = "happy"
     def status(self):
-        print(f" {self.name}, {self.__hapiness}, {self.__hunger}, {self.__weight}lbs, {self.__status}, {self.__hpm}")
+        print(f" {self.name}, happiness:{self.__hapiness}, hunger:{self.__hunger}/100, {self.__weight}lbs, {self.__status}, {self.__hpm}x")
     def begin(self):
-            while self.__status[2] == 'alive':
-                done = False
+            done = False
             while done == False:
                 grah = input('interact :')
-                if grah == "done":
+                if grah.lower() == "done":
                     done = True
+                elif grah.lower() == "status":
                     self.status()
-                elif grah == "status":
-                    self.status()
-                elif grah == 'feed':
+                elif grah.lower() == 'feed':
                     self.feed() 
-                elif grah == 'play':
+                elif grah.lower() == 'play':
                     self.play()
                 else:
                     print('invalid action')
-
+            while self.__status[2] != 'alive':
+                done == True
+            if done == True:
+                self.status()
 yang = petpetpet('Xiyang', 50, 80, 50, ['happy','fed', 'alive'], 1.00)
 yang.begin()
