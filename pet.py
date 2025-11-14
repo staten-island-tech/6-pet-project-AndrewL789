@@ -83,7 +83,7 @@ class petpetpet:
         if (self.__hunger>40) and (self.__hunger < 60):
             self.__status[1] = "fed"
             self.__hpm = 1
-        elif self.__hunger >= 60:
+        elif (self.__hunger >= 60) and (self.__hunger <=999):
             self.__status[1] = "fat"
             self.__hpm = 1.05
         elif self.__hunger <= 40:
@@ -128,26 +128,28 @@ class petpetpet:
                         if found == True:
                             self.__hapiness += games['hpn'] * self.__hpm
                             print(f"{self.name}'s happiness has changed by {games['hpn'] * self.__hpm}")
-        if self.__hapiness < -1000:
+        if (self.__hapiness < -100) and (self.__hapiness >=-999):
             self.__status[0] = "depressed"
         else:
             self.__status[0] = "happy"
     def status(self):
         print(f" {self.name}, {self.__hapiness}, {self.__hunger}, {self.__weight}lbs, {self.__status}, {self.__hpm}")
-yang = petpetpet('Xiyang', 50, 80, 50, ['happy','fed'], 1.00)
-done = False
-while done == False:
-    grah = input('interact :')
-    if grah == "done":
-        done = True
-        yang.status()
-    elif grah == "status":
-        yang.status()
-    elif grah == 'feed':
-        yang.feed() 
-    elif grah == 'play':
-        yang.play()
-    else:
-        print('invalid action')
-    
+    def begin(self):
+            while self.__status[2] == 'alive':
+                done = False
+            while done == False:
+                grah = input('interact :')
+                if grah == "done":
+                    done = True
+                    self.status()
+                elif grah == "status":
+                    self.status()
+                elif grah == 'feed':
+                    self.feed() 
+                elif grah == 'play':
+                    self.play()
+                else:
+                    print('invalid action')
 
+yang = petpetpet('Xiyang', 50, 80, 50, ['happy','fed', 'alive'], 1.00)
+yang.begin()
