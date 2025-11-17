@@ -47,46 +47,54 @@ class petpetpet:
         found = False
         menu =[
             {
-                'food' : 'cake', 'hunger' : 20, 'gains' : 20, 'heal' : 3.5 
+                'food' : 'cake', 'hunger' : 20,'heal' : 3.5 
             },
             {
-                'food' : 'nothing', 'hunger' : -35, 'gains' : -3, 'heal' : 0
+                'food' : 'nothing', 'hunger' : -35,'heal' : 0
             },
             {
-                'food' : 'granola bar', 'hunger' : 5, 'gains' : 0.25, 'heal' : 5
+                'food' : "nothing'er", 'hunger' : -1000000, 'heal' :0
             },
             {
-                'food' : 'tree', 'hunger' : 1, 'gains' : 20, 'heal' : -10
+                'food' : 'granola bar', 'hunger' : 5,'heal' : 5
             },
             {
-                'food' : 'cement', 'hunger' : 0, 'gains' : '40', 'heal' : 1
+                'food' : 'tree', 'hunger' : 1,'heal' : -10
             },
             {
-                'food':'mason', 'hunger':2000000, 'gains':20000000 'heal': 1000000
+                'food' : 'cement', 'hunger' : 0,'heal' : 1
+            },
+            {
+                'food':'mason', 'hunger':2000000,'heal': 1000000
             }
         ]
         for food in menu:
-            print(f"{food['food']} : hunger; {food['hunger']} : gains ; {food['gains']} ")
+            print(f"{food['food']} : hunger; {food['hunger']} : heal; {food['heal']} ")
         food = input('What to feed? :')
         for it in menu:
             if food.lower() == it['food'].lower():
                 found = True
                 if found == True:
                     self.__hunger += it['hunger']
-                    self.__weight += it['gains']
+                    while self.__hunger >=100:
+                        self.__hunger-=100
+                        self.__weight += 1 
+                    while self.__hunger < 0:
+                        self.__hunger += 100
+                        self.__weight -= 1
                     print(f"{self.name} has devoured {it['food']}, {self.name}'s hunger has now been changed by {it['hunger']}, {self.name} is now {self.__weight}lbs")
         if found == False:
             print(f'{food} is not a valid option')
-        if (self.__hunger>40) and (self.__hunger < 60):
+        if (self.__weight >= self.__weight * 0.95) and (self.__weight <= self.__weight * 1.05):
             self.__status[1] = "fed"
             self.__hpm = 1
-        elif (self.__hunger >= 60) and (self.__hunger <=999):
+        elif (self.__weight > self.__weight * 1.05) and (self.__weight <= self.__weight * 1.5):
             self.__status[1] = "fat"
             self.__hpm = 1.05
-        elif self.__hunger <= 40:
+        elif self.__weight > self.__weight * 0.95:
             self.__status[1] = "malnourished"
             self.__hpm = 0.95
-        elif (self.__hunger > 999) and (self.__weight > 200):
+        elif self.__weight > self.__weight * 1.5:
             self.__status[1] = "REALLY FAT"
             self.__hpm = 1.5
     def play(self):
@@ -128,8 +136,10 @@ class petpetpet:
             self.__status[0] = "depressed"
         elif self.__hapiness < -999:
             self.__status[0] = "dead inside"
-        else:
+        elif (self.__hapiness >= -100) and (self.__hapiness <= 150):
             self.__status[0] = "happy"
+        elif self.__hapiness > 151:
+            self.__status[0] = 'jumping with joy'
     def status(self):
         print(f" {self.name}, happiness:{self.__hapiness}, hunger:{self.__hunger}/100, {self.__weight}lbs, {self.__status}, {self.__hpm}x, {self.__hp}hp")
     def begin(self):
@@ -147,6 +157,8 @@ class petpetpet:
                 else:
                     print('invalid action')
                 if self.__hp <= 0:
+                    self.__status[2] = 'dead'
+                if self.__weight <= 0:
                     self.__status[2] = 'dead'
                 if self.__status[2] == 'dead':
                     print(f"{self.name} has died")
