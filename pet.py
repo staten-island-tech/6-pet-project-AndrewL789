@@ -91,10 +91,10 @@ class petpetpet:
         elif (self.__weight > self.__weight * 1.05) and (self.__weight <= self.__weight * 1.5):
             self.__status[1] = "fat"
             self.__hpm = 1.05
-        elif self.__weight > self.__weight * 0.95:
+        elif self.__weight > (self.__weight * 0.95):
             self.__status[1] = "malnourished"
             self.__hpm = 0.95
-        elif self.__weight > self.__weight * 1.5:
+        elif self.__weight > (self.__weight * 1.5):
             self.__status[1] = "REALLY FAT"
             self.__hpm = 1.5
     def play(self):
