@@ -19,7 +19,8 @@ def valid(email, password):
     if len(password) < 8:
         return 'Error: To short'
     return{'email':email, 'password':password}
-print(valid('doodoo@babayaga.com',"pAssw0rDelam&ndo"))
+print(valid("babayagabuffmeister@bill.com", "OHDOODLY23rooskeyballaika"))
+print(valid('cryinggoober', 'fsdgffsdfsddsf'))
 
 
 

@@ -35,14 +35,17 @@ class Hero:
 #yang = pet('Yang', 0) 
 #yang.play("yang game") 
 class petpetpet:
-    def __init__(self, name, hapiness, weight, hunger, status, hpm, hp):
+    def __init__(self, name, hapiness, weight, hunger, status, hpm, hp, maxhp):
         self.name = name
         self.__hapiness = hapiness
         self.__weight = weight
+        self.__ideal = weight
         self.__hunger = hunger
         self.__status = status
         self.__hpm = hpm
         self.__hp = hp 
+        self.__maxhp = maxhp
+        self.__maxhpog = maxhp
     def feed(self):
         found = False
         menu =[
@@ -76,27 +79,9 @@ class petpetpet:
                 found = True
                 if found == True:
                     self.__hunger += it['hunger']
-                    while self.__hunger >=100:
-                        self.__hunger-=100
-                        self.__weight += 1 
-                    while self.__hunger < 0:
-                        self.__hunger += 100
-                        self.__weight -= 1
-                    print(f"{self.name} has devoured {it['food']}, {self.name}'s hunger has now been changed by {it['hunger']}, {self.name} is now {self.__weight}lbs")
+                    return(f"{self.name} has devoured {it['food']}, {self.name}'s hunger has now been changed by {it['hunger']}, {self.name} is now {self.__weight}lbs")
         if found == False:
-            print(f'{food} is not a valid option')
-        if (self.__weight >= self.__weight * 0.95) and (self.__weight <= self.__weight * 1.05):
-            self.__status[1] = "fed"
-            self.__hpm = 1
-        elif (self.__weight > self.__weight * 1.05) and (self.__weight <= self.__weight * 1.5):
-            self.__status[1] = "fat"
-            self.__hpm = 1.05
-        elif self.__weight > (self.__weight * 0.95):
-            self.__status[1] = "malnourished"
-            self.__hpm = 0.95
-        elif self.__weight > (self.__weight * 1.5):
-            self.__status[1] = "REALLY FAT"
-            self.__hpm = 1.5
+            return(f'{food} is not a valid option')
     def play(self):
         playz = [
             {
@@ -115,6 +100,12 @@ class petpetpet:
                 'act':'singing', 'hpn': -5, 'dmg': 5
             },
             {
+                'act':'instant depression', 'hpn': -500, 'dmg':0
+            },
+            {
+                'act':'instant joy' , 'hpn' : 500, 'dmg':0
+            },
+            {
                 'act':'explode', 'hpn':-10000000, 'dmg':330
             }
         ]
@@ -123,25 +114,15 @@ class petpetpet:
         action = input('What to play? :')
         found = False
         for games in playz:
-                    if action.lower() == games['act'].lower():
-                        found = True
-                        if found == True:
-                            self.__hapiness += games['hpn'] * self.__hpm
-                            self.__hp -= games['dmg']
-                            print(f"{self.name}'s happiness has changed by {games['hpn'] * self.__hpm}")
+            if action.lower() == games['act'].lower():
+                found = True
+                self.__hapiness += games['hpn'] * self.__hpm
+                self.__hp -= games['dmg']
+                return(f"{self.name}'s happiness has changed by {games['hpn'] * self.__hpm}")
         if found == False:
-            print(f"{action} is not a valid action")
-    
-        if (self.__hapiness < -100) and (self.__hapiness >=-999):
-            self.__status[0] = "depressed"
-        elif self.__hapiness < -999:
-            self.__status[0] = "dead inside"
-        elif (self.__hapiness >= -100) and (self.__hapiness <= 150):
-            self.__status[0] = "happy"
-        elif self.__hapiness > 151:
-            self.__status[0] = 'jumping with joy'
+            return(f"{action} is not a valid action")
     def status(self):
-        print(f" {self.name}, happiness:{self.__hapiness}, hunger:{self.__hunger}/100, {self.__weight}lbs, {self.__status}, {self.__hpm}x, {self.__hp}hp")
+        return(f" {self.name}, happiness:{self.__hapiness}, hunger:{self.__hunger}/100, {self.__weight}lbs, {self.__status}, {self.__hpm}x, {self.__hp}/{self.__maxhp}hp")
     def begin(self):
             while self.__status[2] == 'alive':
                 grah = input('interact :')
@@ -149,13 +130,56 @@ class petpetpet:
                     self.__hp = 0
                     self.__hapiness = 0
                 elif grah.lower() == "status":
-                    self.status()
+                    print(self.status())
                 elif grah.lower() == 'feed':
-                    self.feed() 
+                    print(self.feed()) 
                 elif grah.lower() == 'play':
-                    self.play()
+                    print(self.play())
                 else:
                     print('invalid action')
+
+
+
+                while self.__hunger >=100:
+                        self.__hunger-=100
+                        self.__weight += 1 
+                while self.__hunger < 0:
+                    self.__hunger += 100
+                    self.__weight -= 1
+
+
+    #turn these into functions cuz this is horrifying <---- 
+                if (self.__weight >= self.__ideal * 0.95) and (self.__weight <= self.__ideal * 1.05):
+                    self.__status[1] = "fed"
+                    self.__hpm = 1
+                elif (self.__weight > self.__ideal * 1.05) and (self.__weight <= self.__ideal * 1.5):
+                    self.__status[1] = "fat"
+                    self.__hpm = 1.05
+                elif self.__weight < (self.__ideal * 0.95):
+                    self.__status[1] = "malnourished"
+                    self.__hpm = 0.95
+                elif self.__weight > (self.__ideal * 1.5):
+                    self.__status[1] = "REALLY FAT"
+                    self.__hpm = 1.5
+
+                if (self.__hapiness < -100) and (self.__hapiness >=-999):
+                    self.__status[0] = "depressed"
+                    self.__maxhp = self.__maxhpog * 0.65
+                elif self.__hapiness < -999:
+                    self.__status[0] = "dead inside"
+                    self.__maxhp == self.__maxhpog * 0.1
+                elif (self.__hapiness >= -100) and (self.__hapiness <= 150):
+                    self.__status[0] = "happy"
+                    self.__maxhp == self.__maxhpog 
+                elif self.__hapiness > 151:
+                    self.__status[0] = 'jumping with joy'
+                    self.__maxhp = self.__maxhpog * 1.25
+                
+                if self.__hp > self.__maxhp:
+                    self.__hp = self.__maxhp
+                
+
+
                 if self.__hp <= 0:
                     self.__status[2] = 'dead'
                 if self.__weight <= 0:
@@ -163,5 +187,5 @@ class petpetpet:
                 if self.__status[2] == 'dead':
                     print(f"{self.name} has died")
                     self.status()
-yang = petpetpet('Xiyang', 50, 80, 50, ['happy','fed', 'alive'], 1.00, 100)
+yang = petpetpet('Xiyang', 50, 80, 50, ['happy','fed', 'alive'], 1.00, 100,100)
 yang.begin()
