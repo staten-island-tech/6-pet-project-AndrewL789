@@ -42,7 +42,7 @@ class petpetpet:
         self.__hunger = hunger
         self.__status = status
         self.__hpm = hpm
-        self.__hp = hp 
+        self.__hp = hp
         self.__maxhp = maxhp
         self.__maxhpog = maxhp
         self.__alive = True
@@ -74,6 +74,7 @@ class petpetpet:
         for food in menu:
             print(f"{food['food']} : hunger; {food['hunger']} : heal; {food['heal']} ")
         food = input('What to feed? :')
+        food = food.strip()
         for it in menu:
             if food.lower() == it['food'].lower():
                 found = True
@@ -113,6 +114,7 @@ class petpetpet:
         for play in playz:
             print(f"{play['act']} : hapiness ; {play['hpn']}")
         action = input('What to play? :')
+        action = action.strip()
         found = False
         for games in playz:
             if action.lower() == games['act'].lower():
@@ -164,7 +166,7 @@ class petpetpet:
             print(f"{self.name} has died")
             print(self.status())
     def ask(self):
-        grah = input('interact :')
+        grah = input('interact (feed / play / status / kill) :')
         if grah.lower() == "kill":
             self.__hp = 0
             self.__hapiness = 0
@@ -178,11 +180,11 @@ class petpetpet:
             print('invalid action')
     def wcon(self):
         while self.__hunger >=100:
-            self.__hunger-=100
-            self.__weight += 1 
+                self.__hunger-=100
+                self.__weight += 1 
         while self.__hunger < 0:
-            self.__hunger += 100
-            self.__weight -= 1
+                self.__hunger += 100
+                self.__weight -= 1
 
     def begin(self):
         while self.__alive == True:
